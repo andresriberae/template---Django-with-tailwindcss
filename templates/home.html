@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+    <title>Django + Tailwind</title>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    <div class="flex min-h-screen items-center justify-center">
+
+        <div class="rounded-2xl bg-white p-10 text-center shadow-xl">
+
+            <h1 class="mb-4 text-4xl font-bold text-green-600">
+                Django + Tailwind CSS
+            </h1>
+
+            <p class="mb-6 text-gray-600">
+                Tailwind CSS está funcionando correctamente.
+            </p>
+
+            <button
+                class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
+            >
+                ¡Funciona!
+            </button>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
