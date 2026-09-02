@@ -62,7 +62,7 @@ coverage.xml
 
 # pyenv
 
-.python-version
+#.python-version
 
 # Celery
 
