@@ -2,38 +2,199 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 
-    <title>Django + Tailwind</title>
+    <title>Dashboard General</title>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="min-h-screen bg-base-200">
 
-    <div class="flex min-h-screen items-center justify-center">
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-sm">
 
-        <div class="rounded-2xl bg-white p-10 text-center shadow-xl">
+        <div class="flex-1">
+            <a href="{% url 'home' %}" class="btn btn-ghost text-xl">
+                Dashboard
+            </a>
+        </div>
 
-            <h1 class="mb-4 text-4xl font-bold text-green-600">
-                Django + Tailwind CSS
-            </h1>
-
-            <p class="mb-6 text-gray-600">
-                Tailwind CSS está funcionando correctamente.
-            </p>
-
-            <button
-                class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
-            >
-                ¡Funciona!
-            </button>
-
+        <div class="flex-none">
+            <a href="/admin/" class="btn btn-outline btn-sm">
+                Administración
+            </a>
         </div>
 
     </div>
 
+
+    <!-- Contenido -->
+    <main class="container mx-auto px-4 py-10">
+
+        <!-- Encabezado -->
+        <div class="mb-10">
+
+            <h1 class="text-4xl font-bold">
+                Dashboard General
+            </h1>
+
+            <p class="text-base-content/60 mt-2">
+                Selecciona una empresa para consultar su información.
+            </p>
+
+        </div>
+
+
+        <!-- Empresas -->
+        <div>
+
+            <h2 class="text-2xl font-bold mb-6">
+                Empresas
+            </h2>
+
+
+            {% if companies %}
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+                    {% for company in companies %}
+
+                        <a
+                            href="{% url 'company_dashboard' company.id %}"
+                            class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-200 hover:-translate-y-1"
+                        >
+
+                            <div class="card-body">
+
+
+                                <!-- Logo -->
+                                <div class="flex justify-center mb-4">
+
+                                    {% if company.logo %}
+
+                                        <div class="w-24 h-24 rounded-2xl bg-base-200 flex items-center justify-center overflow-hidden">
+
+                                            <img
+                                                src="{{ company.logo.url }}"
+                                                alt="{{ company.name }}"
+                                                class="w-full h-full object-contain"
+                                            >
+
+                                        </div>
+
+                                    {% else %}
+
+                                        <div class="w-24 h-24 rounded-2xl bg-primary text-primary-content flex items-center justify-center">
+
+                                            <span class="text-4xl font-bold">
+                                                {{ company.name|first|upper }}
+                                            </span>
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- Información -->
+                                <div class="text-center">
+
+                                    <h2 class="card-title justify-center text-xl">
+                                        {{ company.name }}
+                                    </h2>
+
+                                    <p class="text-sm text-base-content/60 mt-1">
+                                        Código: {{ company.code }}
+                                    </p>
+
+                                    {% if company.nit %}
+
+                                        <p class="text-sm text-base-content/60">
+                                            NIT: {{ company.nit }}
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- Estado -->
+                                <div class="flex justify-center mt-3">
+
+                                    <div class="badge badge-success badge-outline">
+                                        Activa
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Botón -->
+                                <div class="card-actions justify-center mt-4">
+
+                                    <span class="btn btn-primary btn-sm">
+                                        Ver dashboard →
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <!-- Sin empresas -->
+                <div class="card bg-base-100 shadow-xl">
+
+                    <div class="card-body items-center text-center">
+
+                        <div class="text-5xl mb-3">
+                            🏢
+                        </div>
+
+                        <h2 class="card-title">
+                            No hay empresas
+                        </h2>
+
+                        <p class="text-base-content/60">
+                            Actualmente no existen empresas activas registradas.
+                        </p>
+
+                        <a href="/admin/core/company/add/" class="btn btn-primary mt-4">
+                            Agregar empresa
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer footer-center bg-base-300 text-base-content p-6 mt-10">
+
+        <aside>
+            <p>
+                Dashboard General
+            </p>
+        </aside>
+
+    </footer>
+
 </body>
+
 </html>

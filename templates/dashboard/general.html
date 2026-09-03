@@ -1,0 +1,37 @@
+{% for company in companies %}
+
+    <a href="{% url 'company_dashboard' company.id %}">
+
+        <div class="card bg-base-100 shadow-xl">
+
+            <div class="card-body">
+
+                {% if company.logo %}
+                    <img
+                        src="{{ company.logo.url }}"
+                        alt="{{ company.name }}"
+                        class="w-20 h-20 object-contain"
+                    >
+                {% endif %}
+
+                <h2 class="card-title">
+                    {{ company.name }}
+                </h2>
+
+                <p>
+                    {{ company.code }}
+                </p>
+
+                <div class="card-actions justify-end">
+                    <button class="btn btn-primary">
+                        Ver dashboard
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </a>
+
+{% endfor %}

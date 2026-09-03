@@ -1,0 +1,236 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+    <title>Nueva campaña | {{ company.name }}</title>
+</head>
+
+<body class="min-h-screen bg-base-200">
+
+    <div class="navbar bg-base-100 shadow-sm">
+
+        <div class="flex-1">
+            <a
+                href="{% url 'company_dashboard' company.id %}"
+                class="btn btn-ghost text-xl"
+            >
+                Dashboard
+            </a>
+        </div>
+
+    </div>
+
+
+    <main class="container mx-auto px-4 py-10 max-w-3xl">
+
+        <div class="mb-8">
+
+            <div class="breadcrumbs text-sm mb-3">
+                <ul>
+                    <li>
+                        <a href="{% url 'home' %}">
+                            Empresas
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'company_dashboard' company.id %}">
+                            {{ company.name }}
+                        </a>
+                    </li>
+
+                    <li>
+                        Nueva campaña
+                    </li>
+                </ul>
+            </div>
+
+            <h1 class="text-3xl font-bold">
+                Nueva campaña
+            </h1>
+
+            <p class="text-base-content/60 mt-2">
+                Registra una nueva campaña para
+                <strong>{{ company.name }}</strong>.
+            </p>
+
+        </div>
+
+
+        <div class="card bg-base-100 shadow-xl">
+
+            <div class="card-body">
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+
+                    {% if form.non_field_errors %}
+
+                        <div class="alert alert-error mb-6">
+
+                            <span>
+                                {{ form.non_field_errors }}
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- Nombre -->
+
+                    <div class="form-control mb-5">
+
+                        <label class="label">
+                            <span class="label-text font-semibold">
+                                Nombre de la campaña *
+                            </span>
+                        </label>
+
+                        {{ form.name }}
+
+                        {% if form.name.errors %}
+                            <label class="label">
+                                <span class="label-text-alt text-error">
+                                    {{ form.name.errors|striptags }}
+                                </span>
+                            </label>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Descripción -->
+
+                    <div class="form-control mb-5">
+
+                        <label class="label">
+                            <span class="label-text font-semibold">
+                                Descripción
+                            </span>
+                        </label>
+
+                        {{ form.description }}
+
+                        {% if form.description.errors %}
+                            <label class="label">
+                                <span class="label-text-alt text-error">
+                                    {{ form.description.errors|striptags }}
+                                </span>
+                            </label>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Fechas -->
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+
+                        <div class="form-control">
+
+                            <label class="label">
+                                <span class="label-text font-semibold">
+                                    Fecha de inicio *
+                                </span>
+                            </label>
+
+                            {{ form.start_date }}
+
+                            {% if form.start_date.errors %}
+                                <label class="label">
+                                    <span class="label-text-alt text-error">
+                                        {{ form.start_date.errors|striptags }}
+                                    </span>
+                                </label>
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="form-control">
+
+                            <label class="label">
+                                <span class="label-text font-semibold">
+                                    Fecha de finalización
+                                </span>
+                            </label>
+
+                            {{ form.end_date }}
+
+                            {% if form.end_date.errors %}
+                                <label class="label">
+                                    <span class="label-text-alt text-error">
+                                        {{ form.end_date.errors|striptags }}
+                                    </span>
+                                </label>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Estado -->
+
+                    <div class="form-control mb-8">
+
+                        <label class="label cursor-pointer justify-start gap-4">
+
+                            {{ form.is_active }}
+
+                            <span>
+                                <span class="font-semibold">
+                                    Campaña activa
+                                </span>
+
+                                <span class="block text-sm text-base-content/60">
+                                    La campaña estará disponible para registrar difusiones.
+                                </span>
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- Botones -->
+
+                    <div class="flex flex-col-reverse sm:flex-row gap-3 justify-end">
+
+                        <a
+                            href="{% url 'company_dashboard' company.id %}"
+                            class="btn btn-ghost"
+                        >
+                            Cancelar
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Crear campaña
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

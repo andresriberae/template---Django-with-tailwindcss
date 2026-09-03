@@ -1,0 +1,287 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+    <title>
+        Registrar difusión | {{ campaign.name }}
+    </title>
+
+</head>
+
+
+<body class="min-h-screen bg-base-200">
+
+
+    <!-- Navbar -->
+
+    <div class="navbar bg-base-100 shadow-sm">
+
+        <div class="flex-1">
+
+            <a href="{% url 'campaign_detail' campaign.id %}" class="btn btn-ghost text-xl">
+                📊 Dashboard
+            </a>
+
+        </div>
+
+        <div class="flex-none">
+
+            <a href="{% url 'campaign_detail' campaign.id %}" class="btn btn-outline btn-sm">
+                ← Volver
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Contenido -->
+
+    <main class="container mx-auto px-4 py-10 max-w-3xl">
+
+
+        <!-- Breadcrumb -->
+
+        <div class="breadcrumbs text-sm mb-6">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'home' %}">
+                        Empresas
+                    </a>
+                </li>
+
+                <li>
+                    {{ company.name }}
+                </li>
+
+                <li>
+                    {{ campaign.name }}
+                </li>
+
+                <li>
+                    Nueva difusión
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Encabezado -->
+
+        <div class="mb-8">
+
+            <h1 class="text-3xl font-bold">
+                Registrar difusión
+            </h1>
+
+            <p class="text-base-content/60 mt-2">
+                Registra una nueva difusión para la campaña
+                <strong>{{ campaign.name }}</strong>.
+            </p>
+
+        </div>
+
+
+        <!-- Formulario -->
+
+        <div class="card bg-base-100 shadow-xl">
+
+            <div class="card-body">
+
+
+                {% if form.non_field_errors %}
+
+                <div class="alert alert-error mb-6">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+                {% endif %}
+
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+
+                    <!-- Nombre -->
+
+                    <div class="form-control mb-6">
+
+                        <label class="label">
+
+                            <span class="label-text font-semibold">
+                                Nombre de la difusión *
+                            </span>
+
+                        </label>
+
+                        {{ form.name }}
+
+                        {% if form.name.errors %}
+
+                        <label class="label">
+
+                            <span class="label-text-alt text-error">
+                                {{ form.name.errors|striptags }}
+                            </span>
+
+                        </label>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Template -->
+
+                    <div class="form-control mb-6">
+
+                        <label class="label">
+
+                            <span class="label-text font-semibold">
+                                Template de Meta *
+                            </span>
+
+                        </label>
+
+                        {{ form.template }}
+
+                        <label class="label">
+
+                            <span class="label-text-alt text-base-content/50">
+                                La clasificación se obtiene automáticamente del template.
+                            </span>
+
+                        </label>
+
+                        {% if form.template.errors %}
+
+                        <label class="label">
+
+                            <span class="label-text-alt text-error">
+                                {{ form.template.errors|striptags }}
+                            </span>
+
+                        </label>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Estado -->
+
+                    <div class="form-control mb-6">
+
+                        <label class="label">
+
+                            <span class="label-text font-semibold">
+                                Estado
+                            </span>
+
+                        </label>
+
+                        {{ form.status }}
+
+                    </div>
+
+
+                    <!-- Fecha -->
+
+                    <div class="form-control mb-8">
+
+                        <label class="label">
+
+                            <span class="label-text font-semibold">
+                                Fecha y hora programada
+                            </span>
+
+                        </label>
+
+                        {{ form.scheduled_at }}
+
+                        <label class="label">
+
+                            <span class="label-text-alt text-base-content/50">
+                                Puedes dejar este campo vacío si todavía no está programada.
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- Información -->
+
+                    <div class="alert alert-info mb-8">
+
+                        <span>
+
+                            <strong>Campaña:</strong>
+                            {{ campaign.name }}
+
+                            <br>
+
+                            <strong>Empresa:</strong>
+                            {{ company.name }}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- Botones -->
+
+                    <div class="flex flex-col-reverse sm:flex-row justify-end gap-3">
+
+                        <a href="{% url 'campaign_detail' campaign.id %}" class="btn btn-ghost">
+                            Cancelar
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+                            Registrar difusión
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer class="footer footer-center bg-base-300 text-base-content p-6 mt-10">
+
+        <aside>
+
+            <p>
+                {{ company.name }} · {{ campaign.name }}
+            </p>
+
+        </aside>
+
+    </footer>
+
+
+</body>
+
+</html>

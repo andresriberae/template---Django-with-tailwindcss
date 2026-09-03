@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Importar difusión | {{ campaign.name }}</title>
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+</head>
+
+<body class="bg-base-200 min-h-screen">
+
+    <div class="max-w-3xl mx-auto p-6">
+
+        <!-- Breadcrumb -->
+
+        <div class="breadcrumbs text-sm mb-4">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'company_dashboard' company.id %}">
+                        {{ company.name }}
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'campaign_detail' campaign.id %}">
+                        {{ campaign.name }}
+                    </a>
+                </li>
+
+                <li>
+                    Importar difusión
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Encabezado -->
+
+        <div class="mb-8">
+
+            <h1 class="text-3xl font-bold">
+                Importar difusión
+            </h1>
+
+            <p class="text-base-content/60 mt-2">
+                Importa el reporte generado desde Conectly para esta campaña.
+            </p>
+
+        </div>
+
+
+        <!-- Formulario -->
+
+        <div class="card bg-base-100 shadow">
+
+            <div class="card-body">
+
+                <form method="POST" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+
+                    <div class="form-control w-full">
+
+                        <label class="label">
+
+                            <span class="label-text font-medium">
+                                {{ form.file.label }}
+                            </span>
+
+                        </label>
+
+
+                        {{ form.file }}
+
+
+                        {% if form.file.help_text %}
+
+                        <label class="label">
+
+                            <span class="label-text-alt text-base-content/60">
+                                {{ form.file.help_text }}
+                            </span>
+
+                        </label>
+
+                        {% endif %}
+
+
+                        {% if form.file.errors %}
+
+                        <div class="text-error text-sm mt-2">
+
+                            {{ form.file.errors }}
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Botones -->
+
+                    <div class="flex justify-end gap-3 mt-8">
+
+                        <a href="{% url 'campaign_detail' campaign.id %}" class="btn btn-ghost">
+                            Cancelar
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+                            Importar reporte
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

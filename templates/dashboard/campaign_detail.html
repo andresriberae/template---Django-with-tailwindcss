@@ -1,0 +1,312 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+    <title>{{ campaign.name }} | Dashboard</title>
+</head>
+
+<body class="min-h-screen bg-base-200">
+
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+
+        <div class="flex-1">
+
+            <a href="{% url 'company_dashboard' company.id %}" class="btn btn-ghost text-xl">
+                ← {{ company.name }}
+            </a>
+
+        </div>
+
+        <div class="flex-none">
+
+            <a href="{% url 'home' %}" class="btn btn-outline btn-sm">
+                Empresas
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Contenido -->
+    <main class="container mx-auto px-4 py-8">
+
+        <!-- Cabecera -->
+        <div class="card bg-base-100 shadow-xl">
+
+            <div class="card-body">
+
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+                    <div>
+
+                        <div class="breadcrumbs text-sm mb-2">
+
+                            <ul>
+                                <li>
+                                    <a href="{% url 'home' %}">
+                                        Empresas
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{% url 'company_dashboard' company.id %}">
+                                        {{ company.name }}
+                                    </a>
+                                </li>
+
+                                <li>
+                                    {{ campaign.name }}
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <h1 class="text-3xl font-bold">
+                            {{ campaign.name }}
+                        </h1>
+
+                        {% if campaign.description %}
+                        <p class="text-base-content/60 mt-2">
+                            {{ campaign.description }}
+                        </p>
+                        {% endif %}
+
+                        <div class="flex flex-wrap gap-2 mt-4">
+
+                            {% if campaign.is_active %}
+                            <span class="badge badge-success">
+                                Campaña activa
+                            </span>
+                            {% else %}
+                            <span class="badge badge-ghost">
+                                Campaña inactiva
+                            </span>
+                            {% endif %}
+
+                            <span class="badge badge-outline">
+                                Inicio:
+                                {{ campaign.start_date|date:"d/m/Y" }}
+                            </span>
+
+                            {% if campaign.end_date %}
+                            <span class="badge badge-outline">
+                                Fin:
+                                {{ campaign.end_date|date:"d/m/Y" }}
+                            </span>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Registrar difusión -->
+                    <div>
+
+                        <a href="{% url 'diffusion_import' campaign.id %}" class="btn btn-primary">
+                            + Registrar difusión
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Difusiones -->
+        <div class="mt-10">
+
+            <div class="mb-6">
+
+                <h2 class="text-2xl font-bold">
+                    Difusiones
+                </h2>
+
+                <p class="text-base-content/60 mt-1">
+                    Difusiones registradas dentro de esta campaña.
+                </p>
+
+            </div>
+
+
+            {% if diffusions %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                {% for diffusion in diffusions %}
+
+                <div class="card bg-base-100 shadow-xl">
+
+                    <div class="card-body">
+
+                        <div class="flex items-start justify-between gap-3">
+
+                            <h3 class="card-title">
+                                {{ diffusion.name }}
+                            </h3>
+
+                            {% if diffusion.status == "COMPLETED" %}
+
+                            <span class="badge badge-success">
+                                Completada
+                            </span>
+
+                            {% elif diffusion.status == "SENT" %}
+
+                            <span class="badge badge-info">
+                                Enviada
+                            </span>
+
+                            {% elif diffusion.status == "SCHEDULED" %}
+
+                            <span class="badge badge-warning">
+                                Programada
+                            </span>
+
+                            {% elif diffusion.status == "FAILED" %}
+
+                            <span class="badge badge-error">
+                                Fallida
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge badge-ghost">
+                                {{ diffusion.get_status_display }}
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="divider my-2"></div>
+
+
+                        <!-- Template -->
+                        <div class="text-sm">
+
+                            <span class="text-base-content/60">
+                                Template Meta
+                            </span>
+
+                            <p class="font-semibold mt-1">
+                                {{ diffusion.template.name }}
+                            </p>
+
+                        </div>
+
+
+                        <!-- Clasificación -->
+                        <div class="mt-3">
+
+                            {% if diffusion.template.classification == "MARKETING" %}
+
+                            <span class="badge badge-secondary">
+                                MARKETING
+                            </span>
+
+                            {% elif diffusion.template.classification == "UTILITY" %}
+
+                            <span class="badge badge-info">
+                                UTILITY
+                            </span>
+
+                            {% elif diffusion.template.classification == "AUTHENTICATION" %}
+
+                            <span class="badge badge-warning">
+                                AUTHENTICATION
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Fecha programada -->
+                        {% if diffusion.scheduled_at %}
+
+                        <div class="mt-4 text-sm">
+
+                            <span class="text-base-content/60">
+                                Programada para
+                            </span>
+
+                            <p class="font-medium">
+                                {{ diffusion.scheduled_at|date:"d/m/Y H:i" }}
+                            </p>
+
+                        </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="card bg-base-100 shadow-xl">
+
+                <div class="card-body items-center text-center py-16">
+
+                    <div class="text-5xl mb-4">
+                        📢
+                    </div>
+
+                    <h3 class="text-xl font-bold">
+                        No hay difusiones registradas
+                    </h3>
+
+                    <p class="text-base-content/60 mt-2">
+                        Esta campaña todavía no tiene ninguna difusión.
+                    </p>
+
+                    <a href="{% url 'diffusion_import' campaign.id %}" class="btn btn-primary mt-4">
+                        + Registrar primera difusión
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer footer-center bg-base-300 text-base-content p-6 mt-10">
+
+        <aside>
+
+            <p>
+                {{ company.name }} · {{ campaign.name }}
+            </p>
+
+        </aside>
+
+    </footer>
+
+</body>
+
+</html>
