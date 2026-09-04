@@ -7,7 +7,7 @@
 <div class="mb-10">
 
     <h1 class="text-4xl font-bold">
-        Dashboard General
+        Compañias y Empresas
     </h1>
 
     <p class="text-base-content/60 mt-2">
@@ -18,11 +18,6 @@
 
 <!-- Empresas -->
 <div>
-
-    <h2 class="text-2xl font-bold mb-6">
-        Empresas
-    </h2>
-
 
     {% if companies %}
 
@@ -130,7 +125,7 @@
                 Actualmente no existen empresas activas registradas.
             </p>
 
-            <a href="/admin/core/company/add/" class="btn btn-primary mt-4">
+            <a href="{% url 'company_create' %}" class="btn btn-primary mt-4">
                 Agregar empresa
             </a>
 

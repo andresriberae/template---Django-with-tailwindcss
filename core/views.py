@@ -3,7 +3,7 @@
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import CampaignForm, DiffusionImportForm
+from .forms import CompanyForm, CampaignForm, DiffusionImportForm
 from .models import Campaign, Company, Diffusion
 
 
@@ -31,6 +31,37 @@ def dashboard(request):
         },
     )
 
+# Company Views
+def company_list(request):
+    companies = Company.objects.filter(is_active=True)
+
+    return render(
+        request,
+        "company/index.html",
+        {
+            "companies": companies,
+        },
+    )
+
+def company_create(request):
+    if request.method == "POST":
+        form = CompanyForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect("companies")
+
+    else:
+        form = CompanyForm()
+
+    return render(
+        request,
+        "company/company_form.html",
+        {
+            "form": form,
+            "title": "Agregar empresa",
+        }
+    )
 
 def company_dashboard(request, company_id):
 

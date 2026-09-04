@@ -1,6 +1,61 @@
 from django import forms
 
-from .models import Campaign
+from .models import Campaign, Company
+
+class CompanyForm(forms.ModelForm):
+
+    class Meta:
+        model = Company
+        fields = [
+            "name",
+            "code",
+            "nit",
+            "logo",
+            "is_active",
+        ]
+
+        labels = {
+            "name": "Nombre de la empresa",
+            "code": "Código",
+            "nit": "NIT",
+            "logo": "Logo",
+            "is_active": "Empresa activa",
+        }
+
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "input input-bordered w-full",
+                    "placeholder": "Ej. Mi Empresa S.A.",
+                }
+            ),
+
+            "code": forms.TextInput(
+                attrs={
+                    "class": "input input-bordered w-full",
+                    "placeholder": "Ej. MI-EMPRESA",
+                }
+            ),
+
+            "nit": forms.TextInput(
+                attrs={
+                    "class": "input input-bordered w-full",
+                    "placeholder": "Ej. 123456789",
+                }
+            ),
+
+            "logo": forms.ClearableFileInput(
+                attrs={
+                    "class": "file-input file-input-bordered w-full",
+                }
+            ),
+
+            "is_active": forms.CheckboxInput(
+                attrs={
+                    "class": "checkbox checkbox-primary",
+                }
+            ),
+        }
 
 
 class CampaignForm(forms.ModelForm):

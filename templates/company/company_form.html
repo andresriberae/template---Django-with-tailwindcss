@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto">
+
+    <!-- Encabezado -->
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold">
+            {{ title }}
+        </h1>
+
+        <p class="text-base-content/60 mt-2">
+            Registra una nueva empresa en el sistema.
+        </p>
+    </div>
+
+    <!-- Formulario -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-error mb-6">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <!-- Nombre -->
+                <div class="form-control mb-5">
+                    <label class="label">
+                        <span class="label-text font-semibold">
+                            {{ form.name.label }}
+                        </span>
+                    </label>
+
+                    {{ form.name }}
+
+                    {% if form.name.errors %}
+                    <label class="label">
+                        <span class="label-text-alt text-error">
+                            {{ form.name.errors|striptags }}
+                        </span>
+                    </label>
+                    {% endif %}
+                </div>
+
+                <!-- Código -->
+                <div class="form-control mb-5">
+                    <label class="label">
+                        <span class="label-text font-semibold">
+                            {{ form.code.label }}
+                        </span>
+                    </label>
+
+                    {{ form.code }}
+
+                    {% if form.code.errors %}
+                    <label class="label">
+                        <span class="label-text-alt text-error">
+                            {{ form.code.errors|striptags }}
+                        </span>
+                    </label>
+                    {% endif %}
+                </div>
+
+                <!-- NIT -->
+                <div class="form-control mb-5">
+                    <label class="label">
+                        <span class="label-text font-semibold">
+                            {{ form.nit.label }}
+                        </span>
+                    </label>
+
+                    {{ form.nit }}
+
+                    {% if form.nit.errors %}
+                    <label class="label">
+                        <span class="label-text-alt text-error">
+                            {{ form.nit.errors|striptags }}
+                        </span>
+                    </label>
+                    {% endif %}
+                </div>
+
+                <!-- Logo -->
+                <div class="form-control mb-5">
+                    <label class="label">
+                        <span class="label-text font-semibold">
+                            {{ form.logo.label }}
+                        </span>
+                    </label>
+
+                    {{ form.logo }}
+
+                    {% if form.logo.errors %}
+                    <label class="label">
+                        <span class="label-text-alt text-error">
+                            {{ form.logo.errors|striptags }}
+                        </span>
+                    </label>
+                    {% endif %}
+                </div>
+
+                <!-- Estado -->
+                <div class="form-control mb-6">
+                    <label class="label cursor-pointer justify-start gap-3">
+                        {{ form.is_active }}
+
+                        <span class="label-text font-semibold">
+                            Empresa activa
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex justify-end gap-3">
+
+                    <a href="{% url 'companies' %}" class="btn btn-ghost">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+                        Guardar empresa
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
